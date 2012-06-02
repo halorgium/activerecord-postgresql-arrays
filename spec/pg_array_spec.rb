@@ -184,6 +184,13 @@ describe "PgArray" do
       copy.for_yaml.should == ['a', 'b']
     end
 
+    it 'should not break custom serialization on model with array' do
+      model = Unrelated.create!(:for_custom_serialize => ["hello", "world"])
+      model.for_custom_serialize.should == ["hello", "world"]
+      model2 = Unrelated.find(model.id)
+      model2.for_custom_serialize.should == ["hello", "world"]
+    end
+
     def map_times(times)
       times.map{|t| t.strftime("%F %T")}
     end
